@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dialog</title>
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    
+    <div id="dialog" title="Title from Div element">
+
+        This is Jquery dialog
+    </div>
+
+
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('#dialog').dialog()({
+            title : 'title from option',
+            draggable: false,
+            resizable: false,
+            closeOnEscape: false
+
+        });
+    });
+</script>
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>

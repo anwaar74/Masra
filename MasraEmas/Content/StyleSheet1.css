@@ -1,0 +1,98 @@
+﻿
+#modal-header {
+	background: #4586de;
+	color: #fff;
+	padding: 25px 30px;
+	text-align: center;
+	text-transform: uppercase;
+	font-family: Arial;
+	font-size: 18px;
+}
+
+#modal-body h3{
+		color : #4586de;
+		text-transform:uppercase;
+		font-size:35px;
+		text-align:center;
+		margin:30px 0;
+	}
+ 
+ .modal-close{
+	font-size:50px;
+	cursor:pointer;
+	position: relative;
+}
+
+
+
+
+.close:hover{
+		color: #333;
+		cursor: pointer;
+	}
+
+#modal-content{  /*previously modal-content*/
+	display:none;
+	width: auto;
+	height: auto;
+	background-color: white;
+	box-shadow: 4px 4px 5px rgba(0,0,0,0.5);
+	border-radius: 4px;
+	text-align:center;
+	padding:40px;
+	position: relative;
+	animation-name : modalSlideUp;
+	animation-duration:1s;
+
+}
+
+.btn-default {
+  font-family: Raleway-SemiBold;
+  font-size: 13px;
+  color: #4586de;;
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid #4586de;
+  border-radius: 80px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+  top:100px;
+}
+
+.btn-default:hover {
+  color: #FFF;
+  background: rgba(108, 88, 179, 0.75);
+  border: 2px solid rgba(108, 89, 179, 0.75);
+}
+
+.form{
+	display: grid;
+	margin:auto;
+	text-align:center;
+}
+
+.form-group label {
+		display:block;
+		margin-top:10px;
+		margin-bottom:5px;
+		font-size:16px;
+	}
+
+	.form-group input, text {
+		width:100%;
+		padding:10px 20px;
+		border:none;
+		border-radius:10px;
+		font-size:16px;
+		 box-shadow: 4px 4px 5px rgba(0.5,0.5,0.5,0.5);
+		 right:50px;
+
+	}
+@keyframes modalSlideUp {
+	0%{
+		transform: translateY(1500px);
+	}
+	100%{
+		transform:translateY(0);
+	}
+}

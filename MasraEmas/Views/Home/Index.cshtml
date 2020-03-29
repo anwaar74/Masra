@@ -1,0 +1,286 @@
+﻿@model MasraEmas.Models.EmasOwner
+
+@{
+    ViewBag.Title = "Employee List";
+}
+
+<h2>Owner CRUD Operations</h2>
+
+<link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> <!--important--> 
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+<body>
+
+
+    <div class="btn">
+
+        <button id="show" type="button" class="btn btn-default">Show</button>
+
+        <button id="hide" type="button" class="btn btn-default">Hide</button>
+    </div>
+   
+   <!--Pop up form creation-->
+                
+    <div id="modal-content">
+
+
+        <div class="close">X</div>
+
+        <div id="modal-header">
+
+            <h2> Emas Masra New Owner</h2>
+        </div>
+
+        <div id="modal-body">
+            
+@using (Html.BeginForm("Save", "Home", FormMethod.Post, new { @id = "formsubmit" }))
+{
+
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+
+                        <label for="first-name">First Name</label>
+                        <br>
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control",@name="firstName" } })
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="contact-number">Contact</label>
+                        <br>
+                        @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control",@name="contactNo" } })
+
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+
+                        <label for="last-name">Last Name</label>
+                        <br>
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @name = "lastName" } })
+
+                    </div>
+
+                    <div class="form-group col-md-6">
+
+                        <label for="known-as">Known As</label>
+                        <br>
+                        @Html.EditorFor(model => model.KnownAs, new { htmlAttributes = new { @class = "form-control", @name = "knownAs" } })
+
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="Ic-no">IC Number</label>
+                        <br>
+                        @Html.EditorFor(model => model.ICNo, new { htmlAttributes = new { @class = "form-control", @name = "icNo" } })
+                      
+
+                    </div>
+
+                    <div class="form-group col-md-6">
+
+                        <label for="house-no">House Number</label>
+                        <br>
+                        @Html.EditorFor(model => model.HouseNo, new { htmlAttributes = new { @class = "form-control", @name = "houseNo" } })
+
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+
+                        <label for="road-name">Road Name</label>
+                        <br>
+                        @Html.EditorFor(model => model.RoadName, new { htmlAttributes = new { @class = "form-control", @name = "roadName" } })
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="Zone">Zone</label>
+                        <br>
+                        @Html.EditorFor(model => model.Zone, new { htmlAttributes = new { @class = "form-control", @name = "zone" } })
+                    </div>
+
+                </div>
+
+
+            </form>
+}
+            <br >
+            <button id="save" type="button" class="btn btn-default">Save</button>
+            <button id="update" type="button" class="btn btn-default" onclick="UpdateSubmit()">Update</button>
+        </div>
+
+    </div>
+    <!--End of the Pop up form creation-->
+
+
+   <br >
+
+    <!--table creation-->
+            <table id="mydatatable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                   
+                        <tr>
+                            <th colspan="9" style="text-align:center;">Owner Data</th>
+                            <th colspan="2"style="text-align:center;" >Action</th>
+                          </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>KnownAs</th>
+                        <th>ICNo</th>
+                        <th>HouseNo</th>
+                        <th>RoadName</th>
+                        <th>Zone</th>
+                        <th>Notice</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>  
+
+                    
+                </thead>
+            </table>
+    <!--end of the table creation-->
+
+    <!--the script below need to be declared before datatable creation-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> <!--important-->
+    <!--This is to solve error TypeError: $(...).DataTable is not a function error-->
+    <br>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" defer></script>  <!--important-->
+    <script src="~/Scripts/jquery-1.12.4.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>
+
+    <!--datatable creation-->
+
+        
+            <script>
+
+                var Popup, dataTable;
+                $(document).ready(function () {
+                    dataTable = $("#mydatatable").DataTable({
+                        "ajax": {
+                            "url": "/Home/GetOwnerData",
+                            "type": "POST",
+                            "datatype": "json",
+                            "dataSrc": "" // https://datatables.net/reference/option/ajax.dataSrc to solve error DataTables: Cannot read property 'length' of undefined
+                        },
+                        "columns": [
+
+                                                  { 'data': 'ID', 'autowidth': 'true' },
+                                                  { 'data': 'FirstName', 'autowidth': 'true' },
+                                                  { 'data': 'LastName', 'autowidth': 'true' },
+                                                  { 'data': 'KnownAs', 'autowidth': 'true' },
+                                                  { 'data': 'ICNo', 'autowidth': 'true' },
+                                                  { 'data': 'HouseNo', 'autowidth': 'true' },
+                                                  { 'data': 'RoadName', 'autowidth': 'true' },
+                                                  { 'data': 'Zone', 'autowidth': 'true' },
+                                                  { 'data': 'Notice', 'autowidth': 'true' },
+                                                 {
+                                                     'data': 'ID', 'autowidth': 'true', "render": function (data) {
+                                                         return"<a class='btn btn-default btn-sm' onclick=EditRow(" + data + ")><i class='glyphicon glyphicon-pencil'></i> Edit</a>";
+                                                     }
+                                                 },
+                                                  {
+                                                      'data': 'ID', 'autowidth': 'true', "render": function (data) {
+                                                          return "<a class='text' style='color: red;' onclick=DeleteRow(" + data +")><i class='glyphicon glyphicon-trash'></i> Delete </a>";
+                                                      }
+                                                  }
+
+                        ],
+
+                    });
+                });
+
+                // End of Datatable form
+
+
+             // Button Show click
+                document.getElementById('show').addEventListener('click', function () {
+                    document.querySelector('#modal-content').style.display = 'block';
+                    $('#update').hide();
+                });
+
+
+                // Button Hide click
+               $('#hide').click(function () {
+                    $('#modal-content').slideUp(700);
+
+                });
+
+            
+
+               $('.close').click(function () {
+                   $('#modal-content').fadeOut(700);
+
+               });
+
+
+               //Save Modal function
+               $('#save').click(function () {
+                   var Data = $('#formsubmit').serialize();
+                   $.ajax({
+                       type: 'POST',
+                       url: '@Url.Action("Save", "Home")',
+                       data: Data,
+                       datatype: 'JSON',
+                       success: function (response) {
+                           if (response == "success") {
+                               alert("data saved successfully");
+                               window.location.reload();
+                               $('#modal-content').fadeOut(700);
+                           }
+                       },
+
+                       error: function (msg) {
+                           alert(msg.responseText);
+                       }
+
+                   })
+
+
+               });
+
+
+
+                //delete Modal function
+                function DeleteRow(id){
+                    if (confirm("Are you sure to delete?")) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("Delete", "Home")/'+id,
+                            datatype: 'JSON',
+                            success: function (response) {
+                                if (response == "success") {
+                                    alert("data removed successfully");
+                                    window.location.reload();
+                                    //$('#modal-content').fadeOut(700);
+                                }
+                            },
+                            error: function (msg) {
+                                alert(msg.responseText);
+                            }
+                        });
+                    }
+
+
+                }
+
+
+
+
+
+
+
+            </script>
+
+    
+
+
+</body>
